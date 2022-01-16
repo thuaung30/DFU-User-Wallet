@@ -1,57 +1,53 @@
-import React from 'react';
-import logo from './logo.svg';
-import { Counter } from './features/counter/Counter';
-import './App.css';
+import Wrapper from "./components/Wrapper";
+import { Route, Routes } from "react-router-dom";
+import Dashboard from "./containers/dashboard";
+import React from "react";
+import Loading from "./components/Loading";
+
+const Landing = React.lazy(() => import("./containers/landing"));
+const Login = React.lazy(() => import("./containers/login"));
+const Events = React.lazy(() => import("./containers/events"));
+const Event = React.lazy(() => import("./containers/event"));
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <Counter />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <span>
-          <span>Learn </span>
-          <a
-            className="App-link"
-            href="https://reactjs.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux-toolkit.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux Toolkit
-          </a>
-          ,<span> and </span>
-          <a
-            className="App-link"
-            href="https://react-redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React Redux
-          </a>
-        </span>
-      </header>
-    </div>
+    <Wrapper>
+      <Routes>
+        <Route path="/" element={<Dashboard />} />
+        <Route
+          path="/login"
+          element={
+            <React.Suspense fallback={<Loading />}>
+              <Login />
+            </React.Suspense>
+          }
+        />
+        <Route
+          path="/landing"
+          element={
+            <React.Suspense fallback={<Loading />}>
+              <Landing />
+            </React.Suspense>
+          }
+        />
+        <Route
+          path="/events"
+          element={
+            <React.Suspense fallback={<Loading />}>
+              <Events />
+            </React.Suspense>
+          }
+        />
+        <Route
+          path="/events/:id"
+          element={
+            <React.Suspense fallback={<Loading />}>
+              <Event />
+            </React.Suspense>
+          }
+        />
+      </Routes>
+    </Wrapper>
   );
 }
 
